@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.sqlSetting import settings
 import pymysql
 
 def login(request):
@@ -10,7 +11,7 @@ def login(request):
     if not (user_id and user_pw):
         return HttpResponse("빈칸을 입력하세요")
     else:
-        db = pymysql.connect(host='lowercase-database.c0rk8bkrsblu.ap-northeast-2.rds.amazonaws.com', port=3306, user='admin', passwd='wogns5%chldbs', db='qrmenu')
+        db = pymysql.connect(host=settings.RDB_HOST, port=settings.RDB_PORT, user=settings.RDB_ID, passwd=settings.RDB_PW, db=settings.RDB_DBNAME)
 
         cursor = db.cursor()
         cursor.execute("CALL qm_login_pd('%s', '%s')" % (user_id, user_pw))

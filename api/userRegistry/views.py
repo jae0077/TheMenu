@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.sqlSetting import settings
 import pymysql
 
 def handler(request):
@@ -8,8 +9,9 @@ def handler(request):
     user_name = request.POST["user_name"]
     user_email = request.POST["user_email"]
     #키를 포스트로 보내는 각각의 변수를 만든다
-    
-    db = pymysql.connect(host='lowercase-database.c0rk8bkrsblu.ap-northeast-2.rds.amazonaws.com', port=3306, user='admin', passwd='wogns5%chldbs', db='qrmenu')
+   
+    db = pymysql.connect(host=settings.RDB_HOST, port=settings.RDB_PORT, user=settings.RDB_ID, passwd=settings.RDB_PW, db=settings.RDB_DBNAME)
+
     """
     pymysql.connect()메소드로 mysql에 연결한다.
     host : 접속할 mysql server 주소

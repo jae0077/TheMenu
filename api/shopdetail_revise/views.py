@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.sqlSetting import settings
 import pymysql
 import json
 import qrcode
@@ -14,7 +15,7 @@ def handler(request):
     shop_location = request.POST["_shop_location"]
     shop_qrlink = request.POST["_qm_qr_link"]
 
-    db = pymysql.connect(host='lowercase-database.c0rk8bkrsblu.ap-northeast-2.rds.amazonaws.com', port=3306, user='admin', passwd='wogns5%chldbs', db='qrmenu')
+    db = pymysql.connect(host=settings.RDB_HOST, port=settings.RDB_PORT, user=settings.RDB_ID, passwd=settings.RDB_PW, db=settings.RDB_DBNAME)
 
     cursor = db.cursor()
     cursor.execute("CALL qm_shopdetail_revise_pd(%d, '%s', '%s', '%s', '%s', '%s');" %(usertbl_idx, shop_name, shop_menu, shop_tel, shop_location, shop_qrlink))

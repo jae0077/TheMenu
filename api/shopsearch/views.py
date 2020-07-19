@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.sqlSetting import settings
 import pymysql
 import qrcode
 import json
@@ -7,7 +8,7 @@ import json
 def handler(request):
     keyword = request.GET["_keyword"]
 
-    db = pymysql.connect(host='lowercase-database.c0rk8bkrsblu.ap-northeast-2.rds.amazonaws.com', port=3306, user='admin', passwd='wogns5%chldbs', db='qrmenu')
+    db = pymysql.connect(host=settings.RDB_HOST, port=settings.RDB_PORT, user=settings.RDB_ID, passwd=settings.RDB_PW, db=settings.RDB_DBNAME)
 
     cursor = db.cursor()
     cursor.execute("CALL qm_shopsearch_pd('%s');" %(keyword))

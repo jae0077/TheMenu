@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.sqlSetting import settings
 import pymysql
 import json
 import qrcode
@@ -17,7 +18,7 @@ def handler(request):
     hash_shop_name =  hashlib.sha256(shop_name.encode()).hexdigest()
     shop_qrlink = "qrcode" + str(usertbl_idx) + "-" + hash_shop_name[:5] + "-" + str(random.randrange(1, 1000))
 
-    db = pymysql.connect(host='lowercase-database.c0rk8bkrsblu.ap-northeast-2.rds.amazonaws.com', port=3306, user='admin', passwd='wogns5%chldbs', db='qrmenu')
+    db = pymysql.connect(host=settings.RDB_HOST, port=settings.RDB_PORT, user=settings.RDB_ID, passwd=settings.RDB_PW, db=settings.RDB_DBNAME)
 
     #usertbl_idx는 로그인 구현 후 수정 예정
     cursor = db.cursor()
