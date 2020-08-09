@@ -8,8 +8,7 @@
 2. Set Header
 3. Init Menu
 4. Init Isotope
-5. Init Google Map
-
+5. custom
 
 ******************************/
 
@@ -45,7 +44,6 @@ $(document).ready(function()
 
 	initMenu();
 	initIsotope();
-	initGoogleMap();
 
 	/* 
 
@@ -147,111 +145,59 @@ $(document).ready(function()
 	        });
 		}
 	}
-
-	/* 
-
-	5. Init Google Map
-
-	*/
-
-	function initGoogleMap()
-	{
-		var myLatlng = new google.maps.LatLng(47.495962, 19.050966);
-    	var mapOptions = 
-    	{
-    		center: myLatlng,
-	       	zoom: 14,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			draggable: true,
-			scrollwheel: false,
-			zoomControl: true,
-			zoomControlOptions:
-			{
-				position: google.maps.ControlPosition.RIGHT_CENTER
-			},
-			mapTypeControl: false,
-			scaleControl: false,
-			streetViewControl: false,
-			rotateControl: false,
-			fullscreenControl: true,
-			styles:
-			[
-			  {
-			    "featureType": "road.highway",
-			    "elementType": "geometry.fill",
-			    "stylers": [
-			      {
-			        "color": "#ffeba1"
-			      }
-			    ]
-			  }
-			]
-    	}
-
-    	// Initialize a map with options
-    	map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-		// Re-center map after window resize
-		google.maps.event.addDomListener(window, 'resize', function()
-		{
-			setTimeout(function()
-			{
-				google.maps.event.trigger(map, "resize");
-				map.setCenter(myLatlng);
-			}, 1400);
-		});
-	}
 	
 });
-//쿼리스트링 input에 넣기
-function getParameterByName(name) {
-	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	results = regex.exec(location.search);
-	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-console.log(getParameterByName("_keyword"))
-$('#_keyword').val(getParameterByName("_keyword"));
 
 //페이지 로딩시에 ajax로 검색
 window.onload=function(){
-	let _keyword = $("#_keyword").val();
+	let _token = sessionStorage.user;
+
 	let form_data = {
-		_keyword: _keyword
-		};
+		'_token' : _token
+	};
 	$.ajax({
-		type: 'get',
-		url: "http://54.180.115.40:8000/Themenu/search",
+		type: 'POST',
+		url: "http://54.180.115.40:8000/Themenu/myshop",
 		dataType: 'JSON',
 		data:form_data,
 		
 		success:function(data){
-			//data = JSON.parse(data);
 			html = "";
-
-			var list_content = document.getElementById('shop_list');
-			
-			//ajax결과물을 html변수에 담음
-			for(var i=0; i < data.length; i++){
+	        console.log(data);
+            console.log(typeof(data))
+			var list_content = document.getElementById('myshop_list');
+			if (data.length >= 1) {
+				//ajax결과물을 html변수에 담음
+				for(var i=0; i < data.length; i++){
+					html += '<div class="grid-item result">';
+					html += '<div class="listing" style=text-align:center>';
+					html += '<div class="listing_image">';
+					html += '<a href="listing.html?qm_qr_link=' + data[i]['qm_qr_link'] + '"><img src="images/listing_1.jpg" alt=""></a>';
+					html += '</div>';
+					html += '<div class="listing_title_container">';
+					html += '<div class="listing_title"><a href="listing.html">' + data[i]['qm_shop_name'] +'</a></div>';
+					html += '<div class="listing_title" style=margin:auto>';
+					html += '<div class="listing_tel">' + 'tel : ' + data[i]['qm_tel'] + '</div>';
+					html += '<div class=listing_location>' + data[i]['qm_location'] + '</div>';
+					html += '<div class=listing_location>' + data[i]['qm_qr_link'] + '</div>';
+					html += '<button type="button" class="btn btn-secondary btn-lgk">수정</button>'
+					html += '</div>';
+					html += '</div>';
+					html += '</div>';
+					html += '</div>';
+					console.log(data[i]);
+					}
+				//list_content.innerHTML = html;
+			} else {
 				html += '<div class="grid-item result">';
-				html += '<div class="listing" style=text-align:center>';
-				html += '<div class="listing_image">';
-				html += '<a href="listing.html?qm_qr_link=' + data[i]['qm_qr_link'] + '"><img src="images/listing_1.jpg" alt=""></a>';
-				html += '</div>';
-				html += '<div class="listing_title_container">';
-				html += '<div class="listing_title"><a href="listing.html">' + data[i]['qm_shop_name'] +'</a></div>';
-				html += '<div class="listing_title">';
-				html += '<div class="listing_tel">' + 'tel : ' + data[i]['qm_tel'] + '</div>';
-				html += '<div class=listing_location>' + data[i]['qm_location'] + '</div>';
-				//html += '<div class=listing_location>' + data[i]['qm_qr_link'] + '</div>';
+                html += '<div class="listing" style= "text-align:center; height:300px;">';
+				html += '<div style="display:table; height:100%; width:100%">';
+				html += '<div class="none_list"">등록하신 상점이 없습니다.</div>';
 				html += '</div>';
 				html += '</div>';
 				html += '</div>';
-				html += '</div>';
-				console.log(data[i]);
-				}
+			}
 			list_content.innerHTML = html;
-			
 		}
 	})
 }

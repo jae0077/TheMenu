@@ -10,6 +10,7 @@
 <link href="./plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="./styles/login.css">
 <link rel="stylesheet" type="text/css" href="./styles/login_responsive.css">
+<link rel="stylesheet" type="text/css" href="./styles/common.css">
 </head>
 <body>
 
@@ -54,7 +55,7 @@
 					</ul>
 					<ul class="d-flex flex-row align-items-center justify-content-start">
                                                 <li id="state" style="color:white;"></li>
-                                                <li id="logout"><a href="http://54.180.115.40:8000/Themenu/logout">Logout</a></li>
+                                                <li id="logout" onclick="logout()">Logout</a></li>
 
                                         </ul>
 
@@ -70,18 +71,23 @@
 		<div class="col">
 			<div id="loginer">
 				<div id="form">
-					<form action="http://54.180.115.40:8000/Themenu/login" method="post" enctype="multipart/form-data" autocomplete="off">
-						<fieldset>
-							<legend>LOGIN</legend>
-								<input type="text" name="user_id" placeholder="ID">
-								<br><br>
-								<input type="password" name="user_pw" placeholder="PassWord">
-								<br><br>
-							<button type="submit" class="button_5">login</button>
-							<br>
-							You Don't Have Your Account?<a href="signup.html">signup</a>
-						</fieldset>
-					</form>
+					<fieldset>
+						<legend>LOGIN</legend>
+						<input type="text" id="user_id" placeholder="ID">
+						<br><br>
+						<input type="password" id="user_pw" placeholder="PassWord">
+						<br><br>
+						<button class="button_5" type="button" onclick="loginAjax();">login</button>
+						<br>
+						You Don't Have Your Account?<a href="signup.html">signup</a>
+					</fieldset>
+				</div>
+				<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content" style="background-color:#212529; text-align: center;" id="modalcontent">
+
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -127,6 +133,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="./plugins/progressbar/progressbar.min.js"></script>
 <script src="./plugins/parallax-js-master/parallax.min.js"></script>
 <script src="./js/elements.js"></script>
-<script src="js/common.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/login.js"></script>
 </body>
 </html>

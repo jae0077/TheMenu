@@ -1,0 +1,8 @@
+#logout {
+	color:white;
+	cursor:pointer;
+}
+#logout:hover {
+	color:#ffb400 !important;
+}
+

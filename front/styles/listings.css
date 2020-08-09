@@ -811,7 +811,7 @@ section
 }
 .result
 {
-	width: 50%;
+	width: 100%;
 	margin-bottom: 37px;
 	padding-left: 19px;
 	padding-right: 19px;
@@ -979,7 +979,12 @@ section
 {
 	color: #ffb400;
 }
-/* 
-#test_list {
-	height: auto !important;
-} */
+.none_list
+{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 32px;
+}
+
+	

@@ -203,50 +203,6 @@ $(document).ready(function()
 		}
 	}
 });
-	/* 
-
-	6. Init kakao Map 카카오맵API
-
-	*/
-
-        function kakaoMap(){
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = {
-		center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		level: 3 // 지도의 확대 레벨
-		};  
-
-	// 지도를 생성합니다    
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-	// 주소-좌표 변환 객체를 생성합니다
-	var geocoder = new kakao.maps.services.Geocoder();
-
-	// 주소로 좌표를 검색합니다
-	geocoder.addressSearch('경기도 안산시 단원구 신길동 1397-1', function(result, status) {
-                console.log(result);
-	// 정상적으로 검색이 완료됐으면 
-		if (status === kakao.maps.services.Status.OK) {
-
-			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-			// 결과값으로 받은 위치를 마커로 표시합니다
-			var marker = new kakao.maps.Marker({
-				map: map,
-				position: coords
-			});
-
-			// 인포윈도우로 장소에 대한 설명을 표시합니다
-			var infowindow = new kakao.maps.InfoWindow({
-				content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-			});
-			infowindow.open(map, marker);
-
-			// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-			map.setCenter(coords);
-		}
-	});    
-	}
 
 
 //url파라미터 값 가져오기
@@ -260,6 +216,11 @@ console.log("getparameter호출",getParameterByName("qm_qr_link"));
 let _qm_qr_link = getParameterByName("qm_qr_link");
 //ajax코드
 window.onload=function(){
+	document.getElementById('shop_name').innerHTML = '';
+    document.getElementById('menu_text').innerHTML = '';
+    document.getElementById('shop_tel').innerHTML = '';
+	document.getElementById('shop_location').innerHTML = '';
+
 	let form_data = { _qm_qr_link : _qm_qr_link };
 	// console.log("formdata 호출" ,form_data)
 	$.ajax({
@@ -272,8 +233,9 @@ window.onload=function(){
 			
 			data = JSON.parse(data);
 			console.log("성공",data)
-			console.log(typeof(data))
-			
+			console.log(typeof(data)) 	
+			sessionStorage.setItem("address", data[3]);
+			sessionStorage.setItem("shopname", data[0]);
 			document.getElementById('shop_name').innerHTML = '<span>' + data[0] +'</span>';
 			document.getElementById('menu_text').innerHTML = '<span>' + data[1] + '</span>';
 			document.getElementById('shop_tel').innerHTML = '<span>' + data[2] + '</span>';

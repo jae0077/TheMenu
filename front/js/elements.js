@@ -14,7 +14,7 @@
 
 
 ******************************/
-
+//api경로 import
 $(document).ready(function()
 {
 	"use strict";
@@ -334,7 +334,6 @@ $(document).ready(function()
 	}
 
 })
-
 function signupAjax()
 	{
 		let user_id = $("#user_id").val();

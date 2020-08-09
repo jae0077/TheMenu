@@ -6,16 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="DirectoryPlus template project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="./styles/bootstrap-4.1.2/bootstrap.min.css">
-<link href="./plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="./plugins/OwlCarousel2-2.3.4/owl.carousel.css">
-<link rel="stylesheet" type="text/css" href="./plugins/OwlCarousel2-2.3.4/owl.theme.default.css">
-<link rel="stylesheet" type="text/css" href="./plugins/OwlCarousel2-2.3.4/animate.css">
-<link rel="stylesheet" type="text/css" href="./styles/listings.css">
-<link rel="stylesheet" type="text/css" href="./styles/listings_responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/bootstrap-4.1.2/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.3.4/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.3.4/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.3.4/animate.css">
+<link rel="stylesheet" type="text/css" href="styles/listings.css">
+<link rel="stylesheet" type="text/css" href="styles/listings_responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/common.css">
 </head>
 <body>
-
 <!-- Menu -->
 
 <div class="menu">
@@ -48,6 +48,7 @@
 					<ul class="d-flex flex-row align-items-center justify-content-start">
 						<li><a href="index.html">Home</a></li>
 						<li class="active"><a href="listings.html">Listings</a></li>
+						<li id="myshop"><a href="myshop.html">Myshop</a></li>
 					</ul>
 				</nav>
 				<div class="log_reg">
@@ -56,10 +57,9 @@
 						<li id="signup"><a href="signup.html">Register</a></li>
 					</ul>
 					<ul class="d-flex flex-row align-items-center justify-content-start">
-                                                <li id="state" style="color:white;"></li>
-                                                <li id="logout"><a href="http://54.180.115.40:8000/Themenu/logout">Logout</a></li>
-
-                                        </ul>
+ 	                   <li id="state" style="color:white;"></li>
+					   <li id="logout" onclick="logout();">Logout</li>
+                    </ul>
 
 				</div>
 				<div class="hamburger">

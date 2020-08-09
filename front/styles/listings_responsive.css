@@ -25,7 +25,7 @@
 1. 1600px
 ************/
 
-@media only screen and (max-width: 1600px)
+@media only screen and (max-width: 2000px)
 {
 	.search_button
 	{
@@ -110,7 +110,7 @@
 	}
 	.result
 	{
-		width: 50%;
+		width: 100%;
 	}
 	.listings_content
 	{
@@ -254,6 +254,14 @@
 	.copyright
 	{
 		margin-top: 20px;
+	}
+
+	.none_list
+	{
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+		font-size: 14px;
 	}
 }
 

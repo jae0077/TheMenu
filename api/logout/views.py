@@ -1,9 +1,19 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.sqlSetting import settings
+import pymysql
 
 def logout(request):
-    response = redirect('http://54.180.115.40/Themenu/')
-    response.delete_cookie('user_id')
-    response.delete_cookie('user_pw')
-    return response
+    if request.method == "POST":
+        
+        token = request.POST["_token"]
+     
+        db = pymysql.connect(host=settings.RDB_HOST, port=settings.RDB_PORT, user=settings.RDB_ID, passwd=settings.RDB_PW, db=settings.RDB_DBNAME)
 
+        cursor = db.cursor()
+        cursor.execute("CALL qm_tokenStorage_del_pd('%s')" % (token))
+
+        db.commit()
+        db.close()
+        return HttpResponse(token)
