@@ -180,7 +180,7 @@ window.onload=function(){
 					html += '<div class="listing_tel">' + 'tel : ' + data[i]['qm_tel'] + '</div>';
 					html += '<div class=listing_location>' + data[i]['qm_location'] + '</div>';
 					html += '<div class=listing_location>' + data[i]['qm_qr_link'] + '</div>';
-					html += '<button type="button" class="btn btn-secondary btn-lgk">수정</button>'
+					html += '<a href=edit.html?qm_qr_link=' + data[i]['qm_qr_link'] + '><button type="button" class="btn btn-secondary btn-lgk">수정</button></a>'
 					html += '</div>';
 					html += '</div>';
 					html += '</div>';
