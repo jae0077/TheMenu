@@ -216,7 +216,7 @@ function getParameterByName(name) {
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 console.log("getparameter호출",getParameterByName("qm_qr_link"));
-let _qm_qr_link = getParameterByName("qm_qr_link");
+var _qm_qr_link = getParameterByName("qm_qr_link");
 //ajax코드
 window.onload=function(){
 	document.getElementById('shop_name').innerHTML = '';
@@ -224,7 +224,7 @@ window.onload=function(){
     document.getElementById('shop_tel').innerHTML = '';
 	document.getElementById('shop_location').innerHTML = '';
 
-	let form_data = { _qm_qr_link : _qm_qr_link };
+	var form_data = { _qm_qr_link : _qm_qr_link };
 	// console.log("formdata 호출" ,form_data)
 	$.ajax({
 		type: 'GET',
@@ -259,22 +259,23 @@ function edit() {
 	var _shop_tel = document.getElementsByTagName("textarea")[3].value;
 	var _shop_location = document.getElementsByTagName("textarea")[2].value;
 	
-	var shop_data = {
-		"_token" : _token,
-		"_shop_name" : _shop_name,
-		"_shop_menu" : _shop_menu,
-		"_shop_tel" : _shop_tel,
-		"_shop_location" : _shop_location,
-		"_qm_qr_link" : _qm_qr_link
+	var form_data = {
+		_token : _token,
+		_shop_name : _shop_name,
+		_shop_menu : _shop_menu,
+		_shop_tel : _shop_tel,
+		_shop_location : _shop_location,
+		_qm_qr_link : _qm_qr_link
 	};
+	console.log(form_data);
 	$.ajax({
 		type: 'POST',
 		url: "http://54.180.115.40:8000/Themenu/detail_revise",
 		dataType: 'TEXT',
-		data: shop_data,
+		data: form_data,
 		success:function(data) {
 			console.log(data);
 			location.href("http://54.180.115.40/Themenu/myshop.html");
 		}
 	});
-}
+};
