@@ -147,12 +147,41 @@ $(document).ready(function()
 	}
 	
 });
+	function shopDel(clickbtn)
+	{
+		// 몇번째 데이터를 클릭했는지 확인후 해당하는 qr코드를 변수에 저장
+		var _qm_qr_link = document.getElementsByClassName("listing_qrcode")[clickbtn].textContent;
+		console.log(_qm_qr_link);
+		//상점을 삭제할건지 묻는 확인창
+		if (confirm(document.getElementsByClassName("grid-item result")[clickbtn].getElementsByTagName("a")[1].text + "을(를) 삭제하시겠습니까?") == true){    //확인
+			var form_data = {
+				'_token' : _token,
+				'_qm_qr_link' : _qm_qr_link
+			}
+			$.ajax({
+				type: 'POST',
+				url: "http://54.180.115.40:8000/Themenu/detail_del",
+				dataType: 'TEXT',
+				data: form_data,
+
+				success:function(data){
+					console.log("삭제완료");
+					location.reload(true);
+				}
+			})
+		}else{   //취소
+
+    	return false;
+
+ 		}
+
+	}
 
 //페이지 로딩시에 ajax로 검색
 window.onload=function(){
-	let _token = sessionStorage.user;
+	var _token = sessionStorage.user;
 
-	let form_data = {
+	var form_data = {
 		'_token' : _token
 	};
 	$.ajax({
@@ -172,16 +201,17 @@ window.onload=function(){
 					html += '<div class="grid-item result">';
 					html += '<div class="listing" style=text-align:center>';
 					html += '<div class="listing_image">';
-					html += '<a href="listing.html?qm_qr_link=' + data[i]['qm_qr_link'] + '"><img src="images/listing_1.jpg" alt=""></a>';
+					html += '<a href="listing.html?qm_qr_link=' + data[i]['qm_qr_link'] + '"><img src="' + data[i]['qm_shopimg_link'] + '" alt=""></a>';
 					html += '</div>';
 					html += '<div class="listing_title_container">';
 					html += '<div class="listing_title"><a href="listing.html">' + data[i]['qm_shop_name'] +'</a></div>';
 					html += '<div class="listing_title" style=margin:auto>';
 					html += '<div class="listing_tel">' + 'tel : ' + data[i]['qm_tel'] + '</div>';
 					html += '<div class=listing_location>' + data[i]['qm_location'] + '</div>';
-					html += '<div class=listing_location>' + data[i]['qm_qr_link'] + '</div>';
-					//html += '<button type="button" class="btn btn-secondary btn-lgk">수정</button>'
-					html += '<a href=edit.html?qm_qr_link=' + data[i]['qm_qr_link'] + '><button type="button" class="btn btn-secondary btn-lgk">수정</button></a>'
+					html += '<div class=listing_qrcode>' + data[i]['qm_qr_link'] + '</div>';
+					//html += '<a href=edit.html?qm_qr_link=' + data[i]['qm_qr_link'] + '><button type="button" class="btn btn-secondary btn-lgk">수정</button></a>';
+					html += '<button type="button" class="btn btn-secondary btn-lgk" onclick=location.href="edit.html?qm_qr_link=' + data[i]['qm_qr_link'] + '">수정</button>  ';
+					html += '<button type="button" class="btn btn-secondary btn-lgk" value="'+ i +'" onclick="shopDel(this.value)">삭제</button>';
 					html += '</div>';
 					html += '</div>';
 					html += '</div>';

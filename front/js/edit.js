@@ -204,6 +204,7 @@ $(document).ready(function()
 	}
 });
 
+//textarea 자동리사이즈
 function resize(obj) {
 	obj.style.height = "1px";
 	obj.style.height = (12+obj.scrollHeight)+"px";
@@ -217,6 +218,14 @@ function getParameterByName(name) {
 }
 console.log("getparameter호출",getParameterByName("qm_qr_link"));
 var _qm_qr_link = getParameterByName("qm_qr_link");
+
+//주소 입력창 포커스시 보이게
+function OnFocus() {
+	document.getElementById('focus').style.display = "block";
+}
+function OffFocus() {
+	document.getElementById('focus').style.display = "none";
+}
 //ajax코드
 window.onload=function(){
 	document.getElementById('shop_name').innerHTML = '';
@@ -239,10 +248,13 @@ window.onload=function(){
 			console.log(typeof(data)) 	
 			sessionStorage.setItem("address", data[3]);
 			sessionStorage.setItem("shopname", data[0]);
-			document.getElementById('shop_name').innerHTML = '<textarea style="background-color:transparent; color:white; overflow:visible;" onkeydown="resize(this)" onkeyup="resize(this)">' + data[0] +'</textarea>';
-			document.getElementById('menu_text').innerHTML = '<textarea class="form-control" style="overflow:visible; min-height: 150px;" onkeydown="resize(this)" onkeyup="resize(this)">' + data[1] + '</textarea>';
-			document.getElementById('shop_tel').innerHTML = '<textarea style="overflow:visible;" onkeydown="resize(this)" onkeyup="resize(this)">' + data[2] + '</textarea>';
-			document.getElementById('shop_location').innerHTML = '<textarea style="overflow:visible;" onkeydown="resize(this)" onkeyup="resize(this)">' + data[3] + '</textarea>';
+			data[1] = data[1].replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+			document.getElementById('shop_name').innerHTML = '<textarea class="editText" style="background-color:transparent; color:white;" onkeydown="resize(this)" onkeyup="resize(this)">' + data[0] +'</textarea>';
+			document.getElementById('menu_text').innerHTML = '<textarea class="form-control editText" style="min-height: 150px;" onkeydown="resize(this)" onkeyup="resize(this)">' + data[1] + '</textarea>';
+			document.getElementById('shop_tel').innerHTML = '<textarea class="editText" onkeydown="resize(this)" onkeyup="resize(this)">' + data[2] + '</textarea>';
+			document.getElementById('shop_location').innerHTML = '<textarea class="editText" onkeydown="resize(this)" onkeyup="resize(this)" onfocus="OnFocus()" onblur="OffFocus()">' + data[3] + '</textarea>';
+			document.getElementById('shop_location').innerHTML += '<p id="focus" style=display:none;><sup>지번주소를 적어주세요</sup></p>';
+			document.getElementById("bgImg").style.backgroundImage = 'url(' + data[4] + ')'
 			
 			
 		}
@@ -250,22 +262,35 @@ window.onload=function(){
         });
 }
 
-//수정 ajax
+//이미지 업로드시 bgImg변경
+function setImg(event) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        changeImg = event.target.result
+        document.getElementById("bgImg").style.backgroundImage = "url("+changeImg+")";
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
 
+
+//수정 ajax
 function edit() {
 	var _token = sessionStorage.user;
 	var _shop_name = document.getElementsByTagName("textarea")[0].value;
-	var _shop_menu = document.getElementsByTagName("textarea")[1].value;
+	var _shop_menu = document.getElementsByTagName("textarea")[1].value.replace(/(\n|\r\n)/g, '<br>');
 	var _shop_tel = document.getElementsByTagName("textarea")[3].value;
 	var _shop_location = document.getElementsByTagName("textarea")[2].value;
-	
+	var _shop_img = document.getElementById("bgImg").style.backgroundImage.replace("url","").replace('("',"").replace('")',"")
+
+
 	var form_data = {
-		_token : _token,
-		_shop_name : _shop_name,
-		_shop_menu : _shop_menu,
-		_shop_tel : _shop_tel,
-		_shop_location : _shop_location,
-		_qm_qr_link : _qm_qr_link
+		"_token" : _token,
+		"_shop_name" : _shop_name,
+		"_shop_menu" : _shop_menu,
+		"_shop_tel" : _shop_tel,
+		"_shop_location" : _shop_location,
+		"_qm_qr_link" : _qm_qr_link,
+		"_shop_img" : _shop_img
 	};
 	console.log(form_data);
 	$.ajax({
@@ -275,7 +300,7 @@ function edit() {
 		data: form_data,
 		success:function(data) {
 			console.log(data);
-			location.href("http://54.180.115.40/Themenu/myshop.html");
+			window.location.href='http://54.180.115.40/Themenu/myshop.html'
 		}
 	});
 };

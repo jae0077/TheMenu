@@ -6,11 +6,12 @@ import qrcode
 import json
 
 def handler(request):
-    keyword = request.GET["_keyword"]
+    token = request.POST["_token"]
+
     db = pymysql.connect(host=settings.RDB_HOST, port=settings.RDB_PORT, user=settings.RDB_ID, passwd=settings.RDB_PW, db=settings.RDB_DBNAME)
-    
+
     cursor = db.cursor()
-    cursor.execute("CALL qm_shopsearch_pd('%s');" %(keyword))
+    cursor.execute("CALL qm_myshop_pd('%s');" %(token))
     fetchResult = cursor.fetchall()
     result = []
     for i in fetchResult:
@@ -26,4 +27,3 @@ def handler(request):
     result = json.dumps(result)
     db.close()
     return HttpResponse(result)
-

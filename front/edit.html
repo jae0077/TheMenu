@@ -24,7 +24,7 @@
 			<ul>
 				<li><a href="index.html">Home</a></li>
 				<li><a href="listings.html">Listings</a></li>
-				<li id="myshop"><a href="myshop.html">Myshop</a></li>
+				<li class="myshop"><a href="myshop.html">Myshop</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -40,7 +40,7 @@
 		<div class="header_content d-flex flex-row align-items-center justify-content-start">
 			
 			<!-- Logo -->
-			<div class="logo"><a href="#">The<span>Menu</span></a></div>
+			<div class="logo"><a href="index.html">The<span>Menu</span></a></div>
 
 			<!-- Header Nav -->
 			<div class="header_right d-flex flex-row align-items-center justify-content-start ml-auto">
@@ -48,7 +48,7 @@
 					<ul class="d-flex flex-row align-items-center justify-content-start">
 						<li><a href="index.html">Home</a></li>
 						<li><a href="listings.html">Listings</a></li>
-						<li id="myshop"><a href="myshop.html">Myshop</a></li>
+						<li class="myshop"><a href="myshop.html">Myshop</a></li>
 					</ul>
 				</nav>
 				<div class="log_reg">
@@ -80,7 +80,7 @@
 				<div class="row fill_height">
 					<div class="col fill_height">
 						<div class="listing_image">
-							<div class="background_image" style="background-image:url(images/listing_image_1.jpg)"></div>
+							<div class="background_image" id="bgImg" style="background-image:url(images/listing_image_1.jpg)"></div>
 						</div>
 					</div>
 				</div>
@@ -91,6 +91,7 @@
 						<div class="col">
 							<div class="home_content">
 								<div class="listing_title"><h1 id="shop_name"></h1></div>
+								<input type="file" id="imgUpload" accept="image/*" style="border-size:1px; background-color:white; background-color: rgba( 255, 255, 255, 0.5 ); color:black;" onchange="setImg(event);">
 							</div>
 						</div>
 					</div>
@@ -102,7 +103,7 @@
 
 		<div class="listing" style="text-align: center;">
 			<button type="button" class="btn btn-secondary btn-lgk" onclick="edit();">수정</button>
-				<button type="button" class="btn btn-secondary btn-lgk" onclick="location.href='http://54.180.115.40/Themenu/myshop.html'">취소</button>
+			<button type="button" class="btn btn-secondary btn-lgk" onclick="location.href='http://54.180.115.40/Themenu/myshop.html'">취소</button>
 			<div class="container" style="text-align: left;">
 				<div class="row">
 					

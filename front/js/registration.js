@@ -204,100 +204,65 @@ $(document).ready(function()
 	}
 });
 
-
-//url파라미터 값 가져오기
-function getParameterByName(name) {
-	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	results = regex.exec(location.search);
-	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-console.log("getparameter호출",getParameterByName("qm_qr_link"));
-var _qm_qr_link = getParameterByName("qm_qr_link");
-
-//리뷰 평점 제이쿼리 코드
-$('.starRev span').click(function(){
-	$(this).parent().children('span').removeClass('on');
-	$(this).addClass('on').prevAll('span').addClass('on');
-	return false;
-});
-
-//textarea 자동리사이즈
 function resize(obj) {
 	obj.style.height = "1px";
-    obj.style.height = (12+obj.scrollHeight)+"px";
+	obj.style.height = (12+obj.scrollHeight)+"px";
 }
 
-//qr코드 버튼
-function qrview() {
-	$('#myModal').modal('show');
-	document.getElementById('qrcode').src = "https://themenu-bucket.s3.ap-northeast-2.amazonaws.com/qrcode/" + _qm_qr_link + ".png"
-}
-
-//ajax코드
-window.onload=function(){
-	document.getElementById('shop_name').innerHTML = '';
-    document.getElementById('menu_text').innerHTML = '';
-    document.getElementById('shop_tel').innerHTML = '';
-	document.getElementById('shop_location').innerHTML = '';
-
-	var form_data = { _qm_qr_link : _qm_qr_link };
-	// console.log("formdata 호출" ,form_data)
-	$.ajax({
-		type: 'GET',
-		url: "http://54.180.115.40:8000/Themenu/qrviews",
-		dataType: 'TEXT',
-		data: form_data,
-
-		success:function(data){
-			
-			data = JSON.parse(data);
-			console.log("성공",data)
-			console.log(typeof(data)) 	
-			sessionStorage.setItem("address", data[3]);
-			sessionStorage.setItem("shopname", data[0]);
-			document.getElementById('shop_name').innerHTML = '<span>' + data[0] +'</span>';
-			document.getElementById('menu_text').innerHTML = '<span>' + data[1] + '</span>';
-			document.getElementById('shop_tel').innerHTML = '<span>' + data[2] + '</span>';
-			document.getElementById('shop_location').innerHTML = '<span>' + data[3] + '</span>';
-			document.getElementById("bgImg").style.backgroundImage = "url(" + data[4] + ")";
-
-			if (!sessionStorage.getItem("user")){
-				document.getElementsByTagName("th")[0].textContent = "닉네임"
-				document.getElementsByTagName("textarea")[0].textContent = "리뷰를 작성하려면 로그인이 필요합니다."
-				document.getElementsByTagName("textarea")[0].disabled = true;
-			}	
-			else {
-				document.getElementsByTagName("th")[0].textContent = sessionStorage.name;
-			}
-			
-		}
-	
-        });
-}
-function review_ins() {
-	var _token = sessionStorage.user;
-	var _review_grade = document.getElementsByClassName("starR on").length;
-	var _review_content = document.getElementById("review_text").value; 
-	
-	var form_data = {
-		"_token" : _token,
-		"_qm_qr_link" : _qm_qr_link,
-		"_review_grade" : _review_grade,
-		"_review_content" : _review_content
+//이미지 업로드시 bgImg변경
+function setImg(event) {
+	var reader = new FileReader();
+	reader.onload = function(event) {
+		changeImg = event.target.result
+        document.getElementById("bgImg").style.backgroundImage = "url("+changeImg+")";
 	};
-	$.ajax({
-		type: 'POST',
-		url: "http://54.180.115.40:8000/Themenu/review_ins",
-		dataType : 'TEXT',
-		data: form_data,
-
-		success: function(data) {
-			if (data == 1) {
-				location.reload(true);
-			} else {
-				alert("내용을 입력해 주세요.");
-			}
-		}
-	});
+	reader.readAsDataURL(event.target.files[0]);
 }
+
+function OnFocus() {
+    document.getElementById('focus').style.display = "block";
+}
+function OffFocus() {
+    document.getElementById('focus').style.display = "none";
+}
+
+
+//게시글 등록 ajax
+function posting() {
+	var _token = sessionStorage.user;
+	var _shop_name = document.getElementsByTagName("textarea")[0].value;
+	var _shop_menu = document.getElementsByTagName("textarea")[1].value.replace(/(\n|\r\n)/g, '<br>');
+	var _shop_tel = document.getElementsByTagName("textarea")[3].value;
+	var _shop_location = document.getElementsByTagName("textarea")[2].value;
+	var _shop_img = document.getElementById("bgImg").style.backgroundImage.replace("url","").replace('("',"").replace('")',"")
+
+	if (!_shop_name || !_shop_menu || !_shop_tel || !_shop_location) {
+		alert("빈칸을 모두 작성해주세요!")	
+	} else {
+	
+		var form_data = {
+			"_token" : _token,
+			"_shop_name" : _shop_name,
+			"_shop_menu" : _shop_menu,
+			"_shop_tel" : _shop_tel,
+			"_shop_location" : _shop_location,
+			"_shop_img" : _shop_img
+		};
+		console.log(typeof(form_data));
+		$.ajax({
+			type: 'POST',
+			url: "http://54.180.115.40:8000/Themenu/detail",
+			dataType: 'TEXT',
+			data: form_data,
+			success:function(data) {
+				console.log(typeof(data));
+				if (data != "0") {
+					window.location.href='http://54.180.115.40/Themenu/listing.html?qm_qr_link='+data;
+					} else {
+
+					alert("이미 등록한 상점입니다.\n상점 이름과 주소를 확인해 주세요");
+				}
+			}
+		});
+	}
+};

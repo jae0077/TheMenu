@@ -18,19 +18,27 @@ from django.urls import path
 
 import userRegistry.views as tm_registry
 import shopdetail.views as tm_detail
-import qr_views.views as tm_qrviews
 import shopdetail_revise.views as tm_detail_revise
+import shopdetail_del.views as tm_detail_del
+import qr_views.views as tm_qr_views
 import shopsearch.views as tm_search
+import review_ins.views as tm_review_ins
 import login.views as login
 import logout.views as logout
+import myshop.views as tm_myshop
+import addExpirydate.views as tm_addDate
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('Themenu/user', tm_registry.handler),
     path('Themenu/detail', tm_detail.handler),
-    path('Themenu/qrviews', tm_qrviews.handler),
     path('Themenu/detail_revise', tm_detail_revise.handler),
+    path('Themenu/detail_del', tm_detail_del.handler),
+    path('Themenu/qrviews', tm_qr_views.handler),
     path('Themenu/search', tm_search.handler),
+    path('Themenu/review_ins', tm_review_ins.handler),
+    path('Themenu/myshop', tm_myshop.handler),
+    path('Themenu/addDate', tm_addDate.handler),
     path('Themenu/login', login.login),
     path('Themenu/logout', logout.logout),
 ]

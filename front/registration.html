@@ -90,7 +90,13 @@
 					<div class="row">
 						<div class="col">
 							<div class="home_content">
-								<div class="listing_title"><h1 id="shop_name"></h1></div>
+								<div class="listing_title">
+									<h1 id="shop_name">
+										<textarea class="editText" placeholder="상점이름" style="background-color:transparent; color:white;" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+									</h1>
+								</div>
+								<input type="file" id="imgUpload" accept="image/*" style="border-size:1px; background-color:white; background-color: rgba( 255, 255, 255, 0.5 ); color:black;"
+								onchange="setImg(event);">
 							</div>
 						</div>
 					</div>
@@ -100,8 +106,11 @@
 
 		<!-- Listing -->
 
-		<div class="listing">
-			<div class="container">
+		<div class="listing" style="text-align: center;">
+			<!--<input type="file" name="file" id="imageFileOpenInput" accept="image/*">-->
+			<button type="button" class="btn btn-secondary btn-lgk" onclick="posting();">등록</button>
+			<button type="button" class="btn btn-secondary btn-lgk" onclick="location.href='http://54.180.115.40/Themenu/myshop.html'">취소</button>
+			<div class="container" style="text-align: left;">
 				<div class="row">
 					
 					<!-- Listing Content -->
@@ -109,72 +118,13 @@
 						<div class="listing_content">
 							<div class="section_title"><h1>메뉴</h1></div>
 							<div class="listing_text">
-								<p id="menu_text"></p>
-							</div>
-							<!-- Reviews -->
-							<div class="reviews table-responsive">
-								<div class="section_title"><h1>Reviews</h1></div>
-								<div class="reviews_container">
-
-									<!-- Review -->
-									<div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start" style="margin-bottom:0px;">
-
-										<div class="review_content">
-											<table class="table">
-												<thead>
-													<tr>
-														<th scope="col" id="review_id"></th>
-														<th scope="col">
-															<div class="starRev">
-																<span class="starR on">별1</span>
-																<span class="starR">별2</span>
-																<span class="starR">별3</span>
-																<span class="starR">별4</span>
-																<span class="starR">별5</span>
-															  </div>
-														</th>
-														<th scope="col" id="review_date"></th>
-														<th scope="col" style="text-align:right"><span style="cursor:pointer;" onclick="review_ins()">등록</span></th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td scope="row" colspan="4">
-															<textarea id="review_text" style="width:100%;" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-
-									<!-- Review -->
-									<div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start">
-
-										<div class="review_content">
-											<table class="table">
-												<thead>
-													<tr>
-														<th scope="col">닉네임</th>
-														<th scope="col">date</th>
-														<th scope="col">평점</th>
-														<th scope="col" style="text-align:right"><span>수정</span> <span>삭제</span></th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td scope="row" colspan="4">테스트 가나다라마바사 여기 맛없어요 Great place to visit, the food is awesome, I really love it. I would recommend it to other people.</td>
-													</tr>
-												</tbody>
-											</table>
-
-										</div>
-									</div>
-
-								</div>
+								<p id="menu_text">
+									<textarea class="form-control editText" placeholder="메뉴를 입력해주세요." style="min-height: 150px;" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+								</p>	
 							</div>
 						</div>
 					</div>
+					
 					<!-- Listing Sidebar -->
 					<div class="col-lg-4 sidebar_col">
 						<div class="sidebar">
@@ -184,28 +134,23 @@
 								<div class="closed">Closed Now!</div>
 								<div class="ml-auto">Open : 09:00 - 24:00</div>
 							</div> -->
-							
-							<button type="button" class="btn btn-primary btn-lg btn-block" onclick="qrview()">QR코드</button>
-							
-							<!--qr코드 모달-->
-							<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="background-color:black;">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-content" style="background-color:#212529; text-align: center;" id="modalcontent">
-										<img id="qrcode" src="" alt="qrcode">
-									</div>
-								</div>
-							</div>
 
 							<!-- Info -->
 							<div class="sidebar_info">
 								<ul>
 									<li class="d-flex flex-row align-items-start justify-content-start">
 										<div class="sidebar_info_icon"><img src="images/info_1.png" alt=""></div>
-										<div class="sidebar_info_content" id="shop_location"></div>
+										<div class="sidebar_info_content" id="shop_location">
+											<textarea class="editText" placeholder="주소를 입력해주세요" onkeydown="resize(this)" onkeyup="resize(this)" onfocus="OnFocus()" onblur="OffFocus()"></textarea>
+											<p id="focus" style="display:none;"><sup>지번주소를 적어주세요</sup></p>
+
+										</div>
 									</li>
 									<li class="d-flex flex-row align-items-start justify-content-start">
 										<div class="sidebar_info_icon"><img src="images/info_2.png" alt=""></div>
-										<div class="sidebar_info_content" id="shop_tel"></div>
+										<div class="sidebar_info_content" id="shop_tel">
+											<textarea class="editText" placeholder="번호를 입력해주세요" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+										</div>
 									</li>
 
 								</ul>
@@ -219,7 +164,7 @@
 									<div id="google_map" class="google_map">
 										<div class="map_container">
 											<div id="map">
-                                                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fbf10ceb302a2863049ea44bfbae6006&libraries=services,clusterer,drawing"></script>
+                                                <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fbf10ceb302a2863049ea44bfbae6006&libraries=services,clusterer,drawing"></script>
 												<script>
 												function kakao_map(){
 													var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -262,7 +207,7 @@
 													});
 												}
 													setTimeout(kakao_map, 300);
-												</script>
+												</script> -->
 											</div>
 										</div>
 									</div>
@@ -311,7 +256,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="plugins/progressbar/progressbar.min.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="plugins/colorbox/jquery.colorbox-min.js"></script> -->
-<script src="js/listing.js"></script>
+<script src="js/registration.js"></script>
 <script src="js/common.js"></script>
 </body>
 </html>

@@ -1175,3 +1175,20 @@ section
 {
 	color: #ffb400;
 }
+/*리뷰평점 css*/
+.starR{
+	background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+	background-size: auto 100%;
+	width: 1em;
+	height: 1em;
+	display: inline-block;
+	text-indent: -9999px;
+	cursor: pointer;
+}
+.starR.on{ background-position:0 0; }
+
+.btn-primary {
+	background-color: #e1ecf4;
+	border-color: #e1ecf4;
+	color: black;
+}

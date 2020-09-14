@@ -230,13 +230,13 @@ window.onload=function(){
 			html = "";
 
 			var list_content = document.getElementById('shop_list');
-			
+			console.log()	
 			//ajax결과물을 html변수에 담음
 			for(var i=0; i < data.length; i++){
 				html += '<div class="grid-item result">';
 				html += '<div class="listing" style=text-align:center>';
 				html += '<div class="listing_image">';
-				html += '<a href="listing.html?qm_qr_link=' + data[i]['qm_qr_link'] + '"><img src="images/listing_1.jpg" alt=""></a>';
+				html += '<a href="listing.html?qm_qr_link=' + data[i]['qm_qr_link'] + '"><img src="' + data[i]['qm_shopimg_link'] +'" alt=""></a>';
 				html += '</div>';
 				html += '<div class="listing_title_container">';
 				html += '<div class="listing_title"><a href="listing.html">' + data[i]['qm_shop_name'] +'</a></div>';

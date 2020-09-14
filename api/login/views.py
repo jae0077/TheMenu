@@ -34,7 +34,7 @@ def login(request):
             now = datetime.datetime.now()
             hourlater = now + datetime.timedelta(hours = 1)
             strnow = hourlater.strftime('%Y-%m-%d %H:%M:%S')
-            cursor.execute("CALL qm_tokenstorage_ins_pd('%s', '%s')" %(token_str, strnow))
+            cursor.execute("CALL qm_tokenstorage_ins_pd('%s', '%s', '%s')" %(token_str, strnow, user_id))
             db.commit()
             db.close()
             sessionvalue = json.dumps([token_str, chk_name])
