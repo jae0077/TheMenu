@@ -1192,3 +1192,12 @@ section
 	border-color: #e1ecf4;
 	color: black;
 }
+
+.myreview {
+	background: none;
+	border: none;
+	color: #a5a5a5;
+	font-family: 'Poppins', sans-serif;
+	font-size:14px;
+	font-weight: bold;
+}

@@ -116,22 +116,21 @@
 								<div class="section_title"><h1>Reviews</h1></div>
 								<div class="reviews_container">
 
-									<!-- Review -->
-									<div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start" style="margin-bottom:0px;">
-
-										<div class="review_content">
+									<!-- Review -->	
+									<div class="review_content">
+										<div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start" style="margin-bottom:0px;">
 											<table class="table">
 												<thead>
 													<tr>
-														<th scope="col" id="review_id"></th>
-														<th scope="col">
-															<div class="starRev">
+														<th scope="col"></th>
+														<th scope="col" colspan="2">
+															<div class="starRev" id="star_rev">
 																<span class="starR on">별1</span>
 																<span class="starR">별2</span>
 																<span class="starR">별3</span>
 																<span class="starR">별4</span>
 																<span class="starR">별5</span>
-															  </div>
+															</div>
 														</th>
 														<th scope="col" id="review_date"></th>
 														<th scope="col" style="text-align:right"><span style="cursor:pointer;" onclick="review_ins()">등록</span></th>
@@ -147,30 +146,8 @@
 											</table>
 										</div>
 									</div>
-
-									<!-- Review -->
-									<div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start">
-
-										<div class="review_content">
-											<table class="table">
-												<thead>
-													<tr>
-														<th scope="col">닉네임</th>
-														<th scope="col">date</th>
-														<th scope="col">평점</th>
-														<th scope="col" style="text-align:right"><span>수정</span> <span>삭제</span></th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td scope="row" colspan="4">테스트 가나다라마바사 여기 맛없어요 Great place to visit, the food is awesome, I really love it. I would recommend it to other people.</td>
-													</tr>
-												</tbody>
-											</table>
-
-										</div>
+									<div class="review_content" id="review_list">
 									</div>
-
 								</div>
 							</div>
 						</div>

@@ -230,7 +230,7 @@ window.onload=function(){
 			html = "";
 
 			var list_content = document.getElementById('shop_list');
-			console.log()	
+			
 			//ajax결과물을 html변수에 담음
 			for(var i=0; i < data.length; i++){
 				html += '<div class="grid-item result">';

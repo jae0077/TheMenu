@@ -63,6 +63,7 @@ function loginAjax()
 					data = JSON.parse(data);
 			        sessionStorage.setItem("user", data[0]);
 					sessionStorage.setItem("name", data[1]);
+					sessionStorage.setItem("idx", data[2]);
 					window.location.href = 'http://54.180.115.40/Themenu/';
 				}
 			}

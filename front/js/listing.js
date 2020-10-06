@@ -241,7 +241,7 @@ window.onload=function(){
     document.getElementById('shop_tel').innerHTML = '';
 	document.getElementById('shop_location').innerHTML = '';
 
-	var form_data = { _qm_qr_link : _qm_qr_link };
+	var form_data = { '_qm_qr_link' : _qm_qr_link };
 	// console.log("formdata 호출" ,form_data)
 	$.ajax({
 		type: 'GET',
@@ -252,8 +252,8 @@ window.onload=function(){
 		success:function(data){
 			
 			data = JSON.parse(data);
-			console.log("성공",data)
-			console.log(typeof(data)) 	
+			console.log("성공",data);
+			console.log(typeof(data));
 			sessionStorage.setItem("address", data[3]);
 			sessionStorage.setItem("shopname", data[0]);
 			document.getElementById('shop_name').innerHTML = '<span>' + data[0] +'</span>';
@@ -272,12 +272,58 @@ window.onload=function(){
 			}
 			
 		}
+	});
 	
-        });
+	$.ajax({
+		type: 'POST',
+		url: "http://54.180.115.40:8000/Themenu/review_show",
+		dataType: 'TEXT',
+		data: form_data,
+
+		success:function(data) {
+			data = JSON.parse(data);
+			console.log(data);
+
+			var html = ""
+			var review_list = document.getElementById('review_list');
+            
+			//ajax결과물을 html변수에 담음
+            for(var i=0; i < data.length; i++){
+				html += "<table class='table'>";
+				html += "<thead>";
+				html += "<tr>";
+				html += "<th scope='col'>" + data[i]['user_name'] + "</th>";
+				html += "<th scope='col'>"
+				html += "<div class='starRev'>"
+				console.log(typeof(data[i]['review_grade']));
+				for(var j=0; j < data[i]['review_grade']; j++){
+					html += "<span class='starR on'>grade</span>";
+				}
+				html += "</div>";
+				html += "</th>";
+				html += "<th scop='col'>" + data[i]['review_date'] +  "</th>";
+				if (data[i]['user_idx'] === Number(sessionStorage.idx)) {
+					html += "<th scope='col' style='text-align:right;'><button class='myreview' value='" + i + "' onclick='review_edit(this.value)' style='cursor:pointer;'>수정</button> <button class='myreview' value='"+ data[i]['review_idx'] + "' onclick='review_del(this.value)' style='cursor:pointer;'>삭제</button></th>";
+				};
+				html += "</tr>";
+				html += "</thead>";
+				html += "<tbody>";
+				html += "<tr>";
+				html += "<td scope='row' colspan='4'>" + data[i]['review_content'] + "</td>";
+				html += "</tr>";
+				html += "</tbody>";
+				html += "</table>";
+
+			}
+            
+			review_list.innerHTML = html;
+		}
+	});
 }
+
 function review_ins() {
 	var _token = sessionStorage.user;
-	var _review_grade = document.getElementsByClassName("starR on").length;
+	var _review_grade = document.getElementById("star_rev").getElementsByClassName("starR on").length;
 	var _review_content = document.getElementById("review_text").value; 
 	
 	var form_data = {
@@ -301,3 +347,64 @@ function review_ins() {
 		}
 	});
 }
+
+function review_del(click_btn) {
+	if (confirm("리뷰를 삭제하시겠습니까?") == true) { //확인
+	var _user_idx = sessionStorage.idx;
+	var _review_idx = click_btn;
+	
+	var form_data = {
+		"_user_idx" : _user_idx,
+		"_review_idx" : _review_idx
+	};
+
+	$.ajax({
+		type: 'POST',
+		url: "http://54.180.115.40:8000/Themenu/review_del",
+		dataType: "TEXT",
+		data: form_data,
+
+		success: function(data) {
+			if (data == 0) {
+				location.reload(true);
+			}
+		}
+	});
+	} else { //취소
+		return false;
+	};
+}
+/*수정중
+function review_edit(click_btn) {
+	var _user_idx = sessionStorage.idx;
+    var _review_idx = click_btn;
+    var form_data = {
+        "_user_idx" : _user_idx,
+        "_review_idx" : _review_idx
+    };
+    
+	$.ajax({
+       	type: 'POST',
+        url: "http://54.180.115.40:8000/Themenu/review_edit",
+        dataType: "TEXT",
+        data: form_data,
+        success: function(data) {    
+        	var origin = document.getElementByid('review_list').getElementsByTagName("td")[click_btn].TextContent
+			
+			document.getElementById('review_list').getElementsByTagName("td")[click_btn].innerHTML = '<textarea class="editText" style="background-color:transparent; width:100%;" onkeydown="resize(this)" onkeyup="resize(this)">' + origin +'</textarea>';
+		}
+    });
+}
+
+var aaaa = document.getElementById('review_list').getElementsByTagName("table")[0].getElementsByTagName("th")[1];
+
+var tttt = "";
+tttt += '<div class="starRev" id="star_reva">';
+tttt += '<span class="starR on">별1</span>';
+tttt += '<span class="starR">별2</span>';
+tttt += '<span class="starR">별3</span>';
+tttt += '<span class="starR">별4</span>';
+tttt += '<span class="starR">별5</span>';
+tttt += '</div>';
+aaaa.innerHTML = tttt;
+*/

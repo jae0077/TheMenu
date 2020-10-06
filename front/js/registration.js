@@ -234,9 +234,14 @@ function posting() {
 	var _shop_menu = document.getElementsByTagName("textarea")[1].value.replace(/(\n|\r\n)/g, '<br>');
 	var _shop_tel = document.getElementsByTagName("textarea")[3].value;
 	var _shop_location = document.getElementsByTagName("textarea")[2].value;
-	var _shop_img = document.getElementById("bgImg").style.backgroundImage.replace("url","").replace('("',"").replace('")',"")
-
-	if (!_shop_name || !_shop_menu || !_shop_tel || !_shop_location) {
+	
+	if (document.getElementById("bgImg").style.backgroundImage === 'url("images/listing_image_1.jpg")'){
+		var _shop_img = "images/listing_image_1.jpg"
+	} else {
+		var _shop_img = document.getElementById("bgImg").style.backgroundImage.replace("url","").replace('("',"").replace('")',"")
+	};
+	
+		if (!_shop_name || !_shop_menu || !_shop_tel || !_shop_location) {
 		alert("빈칸을 모두 작성해주세요!")	
 	} else {
 	
