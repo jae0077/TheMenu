@@ -22,7 +22,7 @@ def login(request):
         result = cursor.fetchone()
         chk_user = result[0]
         chk_name = result[1]
-        
+        chk_idx = result[2] 
         if chk_user == 0:
             db.close()
             return HttpResponse("case_2")
@@ -37,5 +37,5 @@ def login(request):
             cursor.execute("CALL qm_tokenstorage_ins_pd('%s', '%s', '%s')" %(token_str, strnow, user_id))
             db.commit()
             db.close()
-            sessionvalue = json.dumps([token_str, chk_name])
+            sessionvalue = json.dumps([token_str, chk_name, chk_idx])
             return HttpResponse(sessionvalue)
